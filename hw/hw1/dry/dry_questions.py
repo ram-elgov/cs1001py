@@ -38,3 +38,33 @@ print(my_list)
 
 """
 
+
+def control_digit(israeli_id):
+    """
+    compute the check digit in an Israeli ID number,
+    given as a string of 8 digits.
+    :param israeli_id: Israeli ID number
+    :return: check digit
+    """
+    assert isinstance(israeli_id, str)
+    assert len(israeli_id) == 8
+
+    total = 0
+    for i in range(8):
+        idi = israeli_id[i]
+        val = int(israeli_id[i])  # converts chart to int
+        if i % 2 == 0:            # even index (0,2,4,6)
+            total += val
+        else:                     # odd index (1,3,5,7)
+            if val < 5:
+                total += 2 * val
+            else:
+                total += ((2 * val) % 10) + 1  # sum of digits in 2*val. 'tens' digits must be 1
+    total = total % 10                         # 'ones' (rightmost) digit
+    check_digit = (10 - total) % 10            # the complement modulo 10 of total
+
+    return str(check_digit)
+
+
+print(control_digit("20686751"))
+
