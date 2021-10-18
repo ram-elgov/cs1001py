@@ -12,19 +12,26 @@
 def num_different_letters(text):
     chars = "abcdefghijklmnopqrstuvwxyz"
     chars_counter = [0 for i in range(26)]
-    if len(text) == 0:  # treating the case of an empty string
+    if len(text) == 0:  # in case of an empty string
         return 0
-
     for i in range(len(text)):
         if text[i] in chars:
             chars_counter[chars.find(text[i])] = 1
     return sum(chars_counter)
 
+
 # Question 4b
 def replace_char(text, old, new):
-    pass  # replace with your implementation
-
-
+    if len(text) == 0:  # in case of an empty string
+        if old == '':
+            return text + new
+    text_clone = ""
+    for i in range(len(text)):
+        if text[i] == old:
+            text_clone += new
+        else:
+            text_clone += text[i]
+    return text_clone
 # Question 4c
 def longest_word(text):
     pass  # replace with your implementation
@@ -47,23 +54,44 @@ def calc(expression):
 ########
 
 def test():
-    # testing Q4
-    if num_different_letters("aa bb cccc dd ee fghijklmnopqrstuvwxyz") != 26:
-        print("error in num_different_letters - 1")
-    if num_different_letters("aaa98765432100000000") != 1:
-        print("error in num_different_letters - 2")
-    if num_different_letters("") != 0:
-        print("error in num_different_letters - 3")
-
+    # # testing Q4
+    # if num_different_letters("aa bb cccc dd ee fghijklmnopqrstuvwxyz") != 26:
+    #     print("error in num_different_letters - 1")
+    # if num_different_letters("aaa98765432100000000") != 1:
+    #     print("error in num_different_letters - 2")
+    # if num_different_letters("") != 0:
+    #     print("error in num_different_letters - 3")
+    # if num_different_letters("012345678910*/-+") != 0:
+    #     print("error in num_different_letters - 4")
+    # if num_different_letters("abcdefghijklmnopqrstuvwxyz0123456789") != 26:
+    #     print("error in num_different_letters - 5")
+    #
     # if replace_char("abcdabcde", "a", "x") != "xbcdxbcde":
     #     print("error in replace_char - 1")
     # if replace_char("abcd123", "1", "x") != "abcdx23":
     #     print("error in replace_char - 2")
-    #
-    # if longest_word("a bb ccc 4444 e") != 4:
-    #     print("error in longest_word - 1")
-    # if longest_word("a bb ccc 4444 eeeee fffff") != 5:
-    #     print("error in longest_word - 2")
+    # if replace_char("", " ", "$") != "":
+    #     print("error in replace_char - 3")
+    # if replace_char("", "", "$") != "$":
+    #     print("error in replace_char - 4")
+    # if replace_char("xxxxx", "x", "$") != "$$$$$":
+    #     print("error in replace_char - 5")
+    # # comparing to built-in str.replace()
+    # if replace_char("abcdabcde", "a", "x") != str.replace("abcdabcde", "a", "x"):
+    #     print("error in replace_char - 1")
+    # if replace_char("abcd123", "1", "x") != str.replace("abcd123", "1", "x"):
+    #     print("error in replace_char - 2")
+    # if replace_char("", " ", "$") != str.replace("", " ", "$"):
+    #     print("error in replace_char - 3")
+    # if replace_char("", "", "$") != str.replace("", "", "$"):
+    #     print("error in replace_char - 4")
+    # if replace_char("xxxxx", 'x', '$') != str.replace("xxxxx", "x", "$"):
+    #     print("error in replace_char - 5")
+
+    if longest_word("a bb ccc 4444 e") != 4:
+        print("error in longest_word - 1")
+    if longest_word("a bb ccc 4444 eeeee fffff") != 5:
+        print("error in longest_word - 2")
     #
     # if to_upper("abc") != "ABC":
     #     print("error in to_upper - 1")
