@@ -34,7 +34,14 @@ def replace_char(text, old, new):
     return text_clone
 # Question 4c
 def longest_word(text):
-    pass  # replace with your implementation
+    if len(text) == 0:  # in case of an empty string
+        return 0
+    words = text.split()
+    longest_word_value = 0
+    for word in words:
+        if len(word) > longest_word_value:
+            longest_word_value = len(word)
+    return longest_word_value
 
 
 # Question 4d
@@ -76,6 +83,8 @@ def test():
     #     print("error in replace_char - 4")
     # if replace_char("xxxxx", "x", "$") != "$$$$$":
     #     print("error in replace_char - 5")
+    # if replace_char("xxxx", "x", "") != "":
+    #     print("error in replace_char - 6")
     # # comparing to built-in str.replace()
     # if replace_char("abcdabcde", "a", "x") != str.replace("abcdabcde", "a", "x"):
     #     print("error in replace_char - 1")
@@ -92,6 +101,14 @@ def test():
         print("error in longest_word - 1")
     if longest_word("a bb ccc 4444 eeeee fffff") != 5:
         print("error in longest_word - 2")
+    if longest_word("") != 0:
+        print("error in longest_word - 3")
+    if longest_word("asfkj \ 00 12345678$ 1 00") != 9:
+        print("error in longest_word - 4")
+    if longest_word("        ") != 0:
+        print("error in longest_word - 5")
+    if longest_word("dssdf  ' sfsf' ff   f") != 5:
+        print("error in longest_word - 6")
     #
     # if to_upper("abc") != "ABC":
     #     print("error in to_upper - 1")
