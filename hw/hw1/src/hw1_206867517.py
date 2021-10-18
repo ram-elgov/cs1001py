@@ -32,6 +32,8 @@ def replace_char(text, old, new):
         else:
             text_clone += text[i]
     return text_clone
+
+
 # Question 4c
 def longest_word(text):
     if len(text) == 0:  # in case of an empty string
@@ -48,7 +50,7 @@ def longest_word(text):
 def to_upper(text):
     lower = "abcdefghijklmnopqrstuvwxyz"
     upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    pass  # replace with your implementation
+
 
 
 # Question 5
@@ -97,18 +99,23 @@ def test():
     # if replace_char("xxxxx", 'x', '$') != str.replace("xxxxx", "x", "$"):
     #     print("error in replace_char - 5")
 
-    if longest_word("a bb ccc 4444 e") != 4:
-        print("error in longest_word - 1")
-    if longest_word("a bb ccc 4444 eeeee fffff") != 5:
-        print("error in longest_word - 2")
-    if longest_word("") != 0:
-        print("error in longest_word - 3")
-    if longest_word("asfkj \ 00 12345678$ 1 00") != 9:
-        print("error in longest_word - 4")
-    if longest_word("        ") != 0:
-        print("error in longest_word - 5")
-    if longest_word("dssdf  ' sfsf' ff   f") != 5:
-        print("error in longest_word - 6")
+    # if longest_word("a bb ccc 4444 e") != 4:
+    #     print("error in longest_word - 1")
+    # if longest_word("a bb ccc 4444 eeeee fffff") != 5:
+    #     print("error in longest_word - 2")
+    # if longest_word("") != 0:
+    #     print("error in longest_word - 3")
+    # if longest_word("asfkj \ 00 12345678$ 1 00") != 9:
+    #     print("error in longest_word - 4")
+    # if longest_word("        ") != 0:
+    #     print("error in longest_word - 5")
+    # if longest_word("dssdf  ' sfsf' ff   f") != 5:
+    #     print("error in longest_word - 6")
+    # if longest_word("abcd xyz") != 4:
+    #     print("error in longest_word - 7")
+    # if longest_word("a 12b 34cd 5678efg zzz") != 7:
+    #     print("error in longest_word - 8")
+
     #
     # if to_upper("abc") != "ABC":
     #     print("error in to_upper - 1")
