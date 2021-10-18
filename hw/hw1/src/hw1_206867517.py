@@ -48,9 +48,21 @@ def longest_word(text):
 
 # Question 4d
 def to_upper(text):
+    if len(text) == 0:  # in case of an empty string
+        return ""
     lower = "abcdefghijklmnopqrstuvwxyz"
     upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    text_clone = ""
 
+    for i in range(len(text)):
+        if text[i] in lower:
+            for j in range(len(lower)):
+                if text[i] == lower[j]:
+                    text_clone += upper[j]
+                    break
+        else:
+            text_clone += text[i]
+    return text_clone
 
 
 # Question 5
@@ -117,10 +129,22 @@ def test():
     #     print("error in longest_word - 8")
 
     #
-    # if to_upper("abc") != "ABC":
-    #     print("error in to_upper - 1")
-    # if to_upper("123") != "123":
-    #     print("error in to_upper - 2")
+    if to_upper("abc") != "ABC":
+        print("error in to_upper - 1")
+    if to_upper("123") != "123":
+        print("error in to_upper - 2")
+    if to_upper("1bc") != "1BC":
+        print("error in to_upper - 3")
+    if to_upper("") != "":
+        print("error in to_upper - 4")
+    if to_upper("a a") != "A A":
+        print("error in to_upper - 5")
+    if to_upper("12 3") != "12 3":
+        print("error in to_upper - 6")
+    if to_upper("ABC") != "ABC":
+        print("error in to_upper - 7")
+    if to_upper("1 a") != "1 A":
+        print("error in to_upper - 8")
     #
     # # testing Q5
     # if calc("'123321'*'2'") != "123321123321":
