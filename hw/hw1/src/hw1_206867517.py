@@ -163,22 +163,22 @@ def test():
     #     print("error in to_upper - 8")
     #
     # testing Q5
-    # if calc("'123321'*'2'") != eval("'123321'*2"):  # "123321123321"
-    #     print("error in calc - 1")
-    # if calc("'Hi there '*'3'+'you2'") != eval("'Hi there '*3+'you2'"):  # "Hi there Hi there Hi there you2"
-    #     print("error in calc - 2")
-    # if calc("'hi+fi'*'2'*'2'") != eval("'hi+fi'*2*2"):  # "hi+fihi+fihi+fihi+fi"
-    #     print("error in calc - 3")
-    # if calc("'a'*'2'+'b'*'2'") != eval("('a'* 2 +'b') * 2"):  # "aabaab"
-    #     print("error in calc - 4")
-    # if calc("") != "":
-    #     print("error in calc - 5")
-    # if calc("''") != eval("''"):  # """
-    #     print("error in calc - 6")
-    # if calc("'2'*'2'*'2'") != eval("'2'*2*2"):  # "2222"
-    #     print("error in calc - 7")
-    # if calc("'+*'+'*+'*'2'") != eval("('+*'+'*+')*2"):  # +**++**+"
-    #     print("error in calc - 8")
+    if calc("'123321'*'2'") != eval("'123321'*2"):  # "123321123321"
+        print("error in calc - 1")
+    if calc("'Hi there '*'3'+'you2'") != eval("'Hi there '*3+'you2'"):  # "Hi there Hi there Hi there you2"
+        print("error in calc - 2")
+    if calc("'hi+fi'*'2'*'2'") != eval("'hi+fi'*2*2"):  # "hi+fihi+fihi+fihi+fi"
+        print("error in calc - 3")
+    if calc("'a'*'2'+'b'*'2'") != eval("('a'* 2 +'b') * 2"):  # "aabaab"
+        print("error in calc - 4")
+    if calc("") != "":
+        print("error in calc - 5")
+    if calc("''") != eval("''"):  # """
+        print("error in calc - 6")
+    if calc("'2'*'2'*'2'") != eval("'2'*2*2"):  # "2222"
+        print("error in calc - 7")
+    if calc("'+*'+'*+'*'2'") != eval("('+*'+'*+')*2"):  # +**++**+"
+        print("error in calc - 8")
 
 
 test()
