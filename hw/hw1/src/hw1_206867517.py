@@ -67,7 +67,23 @@ def to_upper(text):
 
 # Question 5
 def calc(expression):
-    pass  # replace with your implementation
+    if len(expression) == 0:
+        return ""
+    expression_list = str.split(expression[1:len(expression) - 1], "'")
+    if len(expression_list) == 1:
+        return expression_list[0]
+    i = 3
+    l_op = calc_operation(expression_list[0], expression_list[1], expression_list[2])
+    while i < len(expression_list) - 1:
+        operator = expression_list[i]
+        r_op = expression_list[i + 1]
+        l_op = calc_operation(l_op, operator, r_op)
+        i += 2
+    return l_op
+
+
+def calc_operation(left_operand, operation, right_operand):
+    return left_operand + right_operand if operation == '+' else left_operand * int(right_operand)
 
 
 ########
@@ -75,7 +91,7 @@ def calc(expression):
 ########
 
 def test():
-    # # testing Q4
+    # testing Q4
     # if num_different_letters("aa bb cccc dd ee fghijklmnopqrstuvwxyz") != 26:
     #     print("error in num_different_letters - 1")
     # if num_different_letters("aaa98765432100000000") != 1:
@@ -129,32 +145,40 @@ def test():
     #     print("error in longest_word - 8")
 
     #
-    if to_upper("abc") != "ABC":
-        print("error in to_upper - 1")
-    if to_upper("123") != "123":
-        print("error in to_upper - 2")
-    if to_upper("1bc") != "1BC":
-        print("error in to_upper - 3")
-    if to_upper("") != "":
-        print("error in to_upper - 4")
-    if to_upper("a a") != "A A":
-        print("error in to_upper - 5")
-    if to_upper("12 3") != "12 3":
-        print("error in to_upper - 6")
-    if to_upper("ABC") != "ABC":
-        print("error in to_upper - 7")
-    if to_upper("1 a") != "1 A":
-        print("error in to_upper - 8")
+    # if to_upper("abc") != "ABC":
+    #     print("error in to_upper - 1")
+    # if to_upper("123") != "123":
+    #     print("error in to_upper - 2")
+    # if to_upper("1bc") != "1BC":
+    #     print("error in to_upper - 3")
+    # if to_upper("") != "":
+    #     print("error in to_upper - 4")
+    # if to_upper("a a") != "A A":
+    #     print("error in to_upper - 5")
+    # if to_upper("12 3") != "12 3":
+    #     print("error in to_upper - 6")
+    # if to_upper("ABC") != "ABC":
+    #     print("error in to_upper - 7")
+    # if to_upper("1 a") != "1 A":
+    #     print("error in to_upper - 8")
     #
-    # # testing Q5
-    # if calc("'123321'*'2'") != "123321123321":
+    # testing Q5
+    # if calc("'123321'*'2'") != eval("'123321'*2"):  # "123321123321"
     #     print("error in calc - 1")
-    # if calc("'Hi there '*'3'+'you2'") != "Hi there Hi there Hi there you2":
+    # if calc("'Hi there '*'3'+'you2'") != eval("'Hi there '*3+'you2'"):  # "Hi there Hi there Hi there you2"
     #     print("error in calc - 2")
-    # if calc("'hi+fi'*'2'*'2'") != "hi+fihi+fihi+fihi+fi":
+    # if calc("'hi+fi'*'2'*'2'") != eval("'hi+fi'*2*2"):  # "hi+fihi+fihi+fihi+fi"
     #     print("error in calc - 3")
-    # if calc("'a'*'2'+'b'*'2'") != "aabaab":
+    # if calc("'a'*'2'+'b'*'2'") != eval("('a'* 2 +'b') * 2"):  # "aabaab"
     #     print("error in calc - 4")
+    # if calc("") != "":
+    #     print("error in calc - 5")
+    # if calc("''") != eval("''"):  # """
+    #     print("error in calc - 6")
+    # if calc("'2'*'2'*'2'") != eval("'2'*2*2"):  # "2222"
+    #     print("error in calc - 7")
+    # if calc("'+*'+'*+'*'2'") != eval("('+*'+'*+')*2"):  # +**++**+"
+    #     print("error in calc - 8")
 
 
 test()
