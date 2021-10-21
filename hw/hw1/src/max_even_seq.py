@@ -49,10 +49,10 @@ def test():
         print("Error in test 5")
     else:
         print(max_even_seq(12121212))
-    if max_even_seq(1089888) != 3:
+    if max_even_seq(808988) != 3:
         print("Error in test 6")
     else:
-        print(max_even_seq(1089888))
+        print(max_even_seq(808988))
     if max_even_seq(2) != 1:
         print("Error in test 7")
     else:
