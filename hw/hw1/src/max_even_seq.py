@@ -58,6 +58,6 @@ def test():
     else:
         print(max_even_seq(2))
     if max_even_seq(7) != 0:
-        print("Error in test 7")
+        print("Error in test 8")
     else:
         print(max_even_seq(7))
