@@ -5,10 +5,13 @@ def max_even_seq(n):
     :param n: a non-negative integer.
     :return: max length of the sequence
     """
+
     if n == 0:
         return 1
+
     max_even = 0
     current_even_seq = 0  # counter for the current even sequence length.
+
     while n > 0:
         if n % 2 == 0:
             current_even_seq += 1
@@ -18,8 +21,10 @@ def max_even_seq(n):
                 max_even = current_even_seq
             current_even_seq = 0  # prepare to count another even sequence
             n //= 10
-    max_even = current_even_seq \
-        if current_even_seq > max_even else max_even  # in case the longest even sequence starts at the left most.
+
+    if current_even_seq > max_even:  # in case the longest even sequence starts at the left most.
+        max_even = current_even_seq
+
     return max_even
 
 
