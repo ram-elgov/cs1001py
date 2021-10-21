@@ -1,18 +1,25 @@
 def max_even_seq(n):
+    """
+    finds the the maximal length of an even sequence of digits,
+    that's included in n's decimal representation.
+    :param n: a non-negative integer.
+    :return: max length of the sequence
+    """
     if n == 0:
         return 1
     max_even = 0
-    current_even_seq = 0
+    current_even_seq = 0  # counter for the current even sequence length.
     while n > 0:
         if n % 2 == 0:
             current_even_seq += 1
             n //= 10
         else:
-            if current_even_seq > max_even:
+            if current_even_seq > max_even:  # reached the end of the current even sequence. update max_even if needed.
                 max_even = current_even_seq
-            current_even_seq = 0
+            current_even_seq = 0  # prepare to count another even sequence
             n //= 10
-    max_even = current_even_seq if current_even_seq > max_even else max_even
+    max_even = current_even_seq \
+        if current_even_seq > max_even else max_even  # in case the longest even sequence starts at the left most.
     return max_even
 
 
@@ -49,6 +56,3 @@ def test():
         print("Error in test 7")
     else:
         print(max_even_seq(7))
-
-
-test()
