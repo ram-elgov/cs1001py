@@ -172,6 +172,3 @@ def test():
         print("error in calc - 7")
     if calc("'+*'+'*+'*'2'") != eval("('+*'+'*+')*2"):  # +**++**+"
         print("error in calc - 8")
-
-
-test()
