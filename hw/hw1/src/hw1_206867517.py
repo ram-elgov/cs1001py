@@ -1,12 +1,5 @@
-# Skeleton file for HW1 - Spring 2021 - extended intro to CS
-
-# Add your implementation to this file
-
-# you may NOT change the signature of the existing functions.
-# you can add new functions if needed.
-
-# Change the name of the file to include your ID number (hw1_ID.py).
-
+# hw1 solution
+# id: 206867517
 
 # Question 4a
 def num_different_letters(text):
@@ -92,76 +85,76 @@ def calc_operation(left_operand, operation, right_operand):
 
 def test():
     # testing Q4
-    # if num_different_letters("aa bb cccc dd ee fghijklmnopqrstuvwxyz") != 26:
-    #     print("error in num_different_letters - 1")
-    # if num_different_letters("aaa98765432100000000") != 1:
-    #     print("error in num_different_letters - 2")
-    # if num_different_letters("") != 0:
-    #     print("error in num_different_letters - 3")
-    # if num_different_letters("012345678910*/-+") != 0:
-    #     print("error in num_different_letters - 4")
-    # if num_different_letters("abcdefghijklmnopqrstuvwxyz0123456789") != 26:
-    #     print("error in num_different_letters - 5")
-    #
-    # if replace_char("abcdabcde", "a", "x") != "xbcdxbcde":
-    #     print("error in replace_char - 1")
-    # if replace_char("abcd123", "1", "x") != "abcdx23":
-    #     print("error in replace_char - 2")
-    # if replace_char("", " ", "$") != "":
-    #     print("error in replace_char - 3")
-    # if replace_char("", "", "$") != "$":
-    #     print("error in replace_char - 4")
-    # if replace_char("xxxxx", "x", "$") != "$$$$$":
-    #     print("error in replace_char - 5")
-    # if replace_char("xxxx", "x", "") != "":
-    #     print("error in replace_char - 6")
-    # # comparing to built-in str.replace()
-    # if replace_char("abcdabcde", "a", "x") != str.replace("abcdabcde", "a", "x"):
-    #     print("error in replace_char - 1")
-    # if replace_char("abcd123", "1", "x") != str.replace("abcd123", "1", "x"):
-    #     print("error in replace_char - 2")
-    # if replace_char("", " ", "$") != str.replace("", " ", "$"):
-    #     print("error in replace_char - 3")
-    # if replace_char("", "", "$") != str.replace("", "", "$"):
-    #     print("error in replace_char - 4")
-    # if replace_char("xxxxx", 'x', '$') != str.replace("xxxxx", "x", "$"):
-    #     print("error in replace_char - 5")
+    if num_different_letters("aa bb cccc dd ee fghijklmnopqrstuvwxyz") != 26:
+        print("error in num_different_letters - 1")
+    if num_different_letters("aaa98765432100000000") != 1:
+        print("error in num_different_letters - 2")
+    if num_different_letters("") != 0:
+        print("error in num_different_letters - 3")
+    if num_different_letters("012345678910*/-+") != 0:
+        print("error in num_different_letters - 4")
+    if num_different_letters("abcdefghijklmnopqrstuvwxyz0123456789") != 26:
+        print("error in num_different_letters - 5")
 
-    # if longest_word("a bb ccc 4444 e") != 4:
-    #     print("error in longest_word - 1")
-    # if longest_word("a bb ccc 4444 eeeee fffff") != 5:
-    #     print("error in longest_word - 2")
-    # if longest_word("") != 0:
-    #     print("error in longest_word - 3")
-    # if longest_word("asfkj \ 00 12345678$ 1 00") != 9:
-    #     print("error in longest_word - 4")
-    # if longest_word("        ") != 0:
-    #     print("error in longest_word - 5")
-    # if longest_word("dssdf  ' sfsf' ff   f") != 5:
-    #     print("error in longest_word - 6")
-    # if longest_word("abcd xyz") != 4:
-    #     print("error in longest_word - 7")
-    # if longest_word("a 12b 34cd 5678efg zzz") != 7:
-    #     print("error in longest_word - 8")
+    if replace_char("abcdabcde", "a", "x") != "xbcdxbcde":
+        print("error in replace_char - 1")
+    if replace_char("abcd123", "1", "x") != "abcdx23":
+        print("error in replace_char - 2")
+    if replace_char("", " ", "$") != "":
+        print("error in replace_char - 3")
+    if replace_char("", "", "$") != "$":
+        print("error in replace_char - 4")
+    if replace_char("xxxxx", "x", "$") != "$$$$$":
+        print("error in replace_char - 5")
+    if replace_char("xxxx", "x", "") != "":
+        print("error in replace_char - 6")
 
-    #
-    # if to_upper("abc") != "ABC":
-    #     print("error in to_upper - 1")
-    # if to_upper("123") != "123":
-    #     print("error in to_upper - 2")
-    # if to_upper("1bc") != "1BC":
-    #     print("error in to_upper - 3")
-    # if to_upper("") != "":
-    #     print("error in to_upper - 4")
-    # if to_upper("a a") != "A A":
-    #     print("error in to_upper - 5")
-    # if to_upper("12 3") != "12 3":
-    #     print("error in to_upper - 6")
-    # if to_upper("ABC") != "ABC":
-    #     print("error in to_upper - 7")
-    # if to_upper("1 a") != "1 A":
-    #     print("error in to_upper - 8")
-    #
+    # comparing to built-in str.replace()
+    if replace_char("abcdabcde", "a", "x") != str.replace("abcdabcde", "a", "x"):
+        print("error in replace_char - 1")
+    if replace_char("abcd123", "1", "x") != str.replace("abcd123", "1", "x"):
+        print("error in replace_char - 2")
+    if replace_char("", " ", "$") != str.replace("", " ", "$"):
+        print("error in replace_char - 3")
+    if replace_char("", "", "$") != str.replace("", "", "$"):
+        print("error in replace_char - 4")
+    if replace_char("xxxxx", 'x', '$') != str.replace("xxxxx", "x", "$"):
+        print("error in replace_char - 5")
+
+    if longest_word("a bb ccc 4444 e") != 4:
+        print("error in longest_word - 1")
+    if longest_word("a bb ccc 4444 eeeee fffff") != 5:
+        print("error in longest_word - 2")
+    if longest_word("") != 0:
+        print("error in longest_word - 3")
+    if longest_word("asfkj 00 12345678$ 1 00") != 9:
+        print("error in longest_word - 4")
+    if longest_word("        ") != 0:
+        print("error in longest_word - 5")
+    if longest_word("dssdf  ' sfsf' ff   f") != 5:
+        print("error in longest_word - 6")
+    if longest_word("abcd xyz") != 4:
+        print("error in longest_word - 7")
+    if longest_word("a 12b 34cd 5678efg zzz") != 7:
+        print("error in longest_word - 8")
+
+    if to_upper("abc") != "ABC":
+        print("error in to_upper - 1")
+    if to_upper("123") != "123":
+        print("error in to_upper - 2")
+    if to_upper("1bc") != "1BC":
+        print("error in to_upper - 3")
+    if to_upper("") != "":
+        print("error in to_upper - 4")
+    if to_upper("a a") != "A A":
+        print("error in to_upper - 5")
+    if to_upper("12 3") != "12 3":
+        print("error in to_upper - 6")
+    if to_upper("ABC") != "ABC":
+        print("error in to_upper - 7")
+    if to_upper("1 a") != "1 A":
+        print("error in to_upper - 8")
+
     # testing Q5
     if calc("'123321'*'2'") != eval("'123321'*2"):  # "123321123321"
         print("error in calc - 1")
