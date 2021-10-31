@@ -27,7 +27,6 @@ def max_even_seq(n):
 
     return max_even
 
-
 # def test():
 #     if max_even_seq(23300247524689) != 4:
 #         print("Error in test 1")
