@@ -186,7 +186,7 @@ def count_steps_2dim(d):
     x = 0
     y = 0
     count = 0
-    while (x**2 + y**2) < d**2:
+    while (x ** 2 + y ** 2) < d ** 2:
         count += 1
         step = roll_dice(4)
         if step == 1:
@@ -243,7 +243,7 @@ def add(bin1, bin2):
                 cary = 0
             else:
                 result += "0"
-    if cary:   # if digits carried until the end of the operation
+    if cary:  # if digits carried until the end of the operation
         result += "1"
     return "".join(list(result)[::-1])  # reverse the natural order of concatenation
 
@@ -290,7 +290,7 @@ def to_decimal(binary):
     result = 0
     reversed_binary_lst = list(binary)[::-1]
     for i in range(len(reversed_binary_lst)):
-        result += 0 if reversed_binary_lst[i] == "0" else 2**i
+        result += 0 if reversed_binary_lst[i] == "0" else 2 ** i
     return result
 
 
@@ -301,7 +301,7 @@ def to_decimal(binary):
 
 # 5a
 def divisors(n):
-    return [i + 1 for i in range(n - 1) if n % (i + 1) == 0]
+    return [i + 1 for i in range(n // 2) if n % (i + 1) == 0]
 
 
 def is_perfect_number(number):
@@ -327,7 +327,7 @@ def perfect_numbers(n):
 
 def abundant_density(n):
     count = 0
-    for i in range(1, n + 1, 1):
+    for i in range(1, n + 1):
         if is_abundant(i):
             count += 1
     return count / n
@@ -346,6 +346,8 @@ def semi_perfect_3(n):
             for k in range(j + 1, l, 1):
                 if x[i] + x[j] + x[k] == n:
                     return [x[i], x[j], x[k]]
+                if x[i] + x[j] + x[k] > n:  # x is sorted in ascending order
+                    break
     return None
 
 
@@ -353,163 +355,161 @@ def semi_perfect_3(n):
 # Tester #
 ##########
 
-def test():
-    # test 1a
-    # if print_rectangle(4, 5) != "*****\n*   *\n*   *\n*****" or \
-    #         print_rectangle(3, 3) != "***\n* *\n***" or \
-    #         print_rectangle(3,2) != "**\n**\n**" or \
-    #         print_rectangle(2,3) != "***\n***" or \
-    #         print_rectangle(5,3) != "***\n* *\n* *\n* *\n***" or \
-    #         print_rectangle(5, 4) != '****\n*  *\n*  *\n*  *\n****' or \
-    #         print_rectangle(1,1) != '*' or \
-    #         print_rectangle(1,2) != '**' or \
-    #         print_rectangle(2,2) != "**\n**":
-    #     print("#1a - error in print_rectangle")
-    # test 1b
-    # if x_o_winner(["eee", "xxx", "eoo"]) != "x" or \
-    #         x_o_winner(["xee", "oxo", "eex"]) != "x" or \
-    #         x_o_winner(["eex", "oxe", "xoe"]) != "x" or \
-    #         x_o_winner(["oee", "oxx", "oeo"]) != "o" or \
-    #         x_o_winner(["eee", "eee", "eeo"]) != "no winner" or \
-    #         x_o_winner(["xox",
-    #                     "oox",
-    #                     "xxe"]) != "no winner" or \
-    #         x_o_winner(["xox",
-    #                     "oxx",
-    #                     "xex"]) != "x" or \
-    #         x_o_winner(["xoo",
-    #                     "oxo",
-    #                     "xxx"]) != "x" or \
-    #         x_o_winner(["xoo",
-    #                     "xox",
-    #                     "oex"]) != "o":
-    #     print("#1b - error in x_o_winner")
-    # test 1c
-    # if valid_braces("(ab{cd}ef)") is not True or \
-    #         valid_braces("{this(is]wrong") is not False or \
-    #         valid_braces("{1:(a,b),2:[c,d)}") is not False or \
-    #         valid_braces(".,(:::::::t{t)dd}rr her") is not False or \
-    #         valid_braces("hgfsdfgh)h") is not False or \
-    #         valid_braces(".{.") is not False or \
-    #         valid_braces("sd( .,  (        }::      )") is not False or \
-    #         valid_braces("(({.}{}.{,}[][]s(aaa)(a)a{,.[a{}.]}))") is not True or \
-    #         valid_braces("([{([{}])}])") is not True or \
-    #         valid_braces("{}}") is not False:
-    #     print("#1c - error in valid_braces")
-    # tests Q2
-    # for i in range(10):
-    #     if coin() not in {True, False}:
-    #         print("#2a - error in coin")
-    #         break
-    # trues = 0
-    # falses =0
-    # for i in range(10000000):
-    #     if(coin()):
-    #         trues += 1
-    #     else:
-    #         falses +=1
-    # print(falses / 10000000, " ", trues / 10000000)
-
-    # for i in range(1000000):
-    #     if roll_dice(6) not in {1, 2, 3, 4, 5, 6} or \
-    #             roll_dice(100) not in {i for i in range(1, 101)} or \
-    #             roll_dice(2) not in {1,2}:
-    #         print("2b - error in roll_dice")
-    #         break
-
-    # for i in range(10000):
-    #     if (roulette(100, "even") not in {0, 200}) or (roulette(100, "odd") not in {0, 200}):
-    #         print("2c - error in roulette")
-    #         break
-    #
-    # print(roulette_repeat(100, 10000000) / 10000000)
-    # counting = 0
-    # for i in range(100000):
-    #     if shuffle_list([1, 2, 3, 4]) == [1, 2, 3, 4] or \
-    #             shuffle_list(["a", "b", "c", "d", "e"]) == ["a", "b", "c", "d", "e"] or \
-    #             shuffle_list([(1, 2), (3, 4), ("a", "b")]) == [(1, 2), (3, 4), ("a", "b")]:
-    #         counting += 1
-    #         print("2e - error in shuffle_list")
-    # if not 24 < avg_count_steps(5) < 26:  # very low probability that a good implementation will be out of this range
-    #     print("2f - error in avg_count_steps")
-    # if count_steps_2dim(5) < 5 or \
-    #         count_steps_2dim(10) < 10 or \
-    #         count_steps_2dim(100) < 100:  # can't reach d in less than d steps
-    #     print("2g - error in count_steps_2dim")
-
-    # if inc("0") != "1" or \
-    #         inc("1") != "10" or \
-    #         inc("101") != "110" or \
-    #         inc("111") != "1000" or \
-    #         inc("1111111") != "10000000" or \
-    #         inc("1110111") != "1111000":
-    #     print("3a - error in inc")
-    #
-    # if add("0", "1") != "1" or \
-    #         add("0","0") != "0" or \
-    #         add("1", "1") != "10" or \
-    #         add("110", "11") != "1001" or \
-    #         add("111", "111") != "1110" or \
-    #         add("10101010", "11001100") != "101110110" or \
-    #         add("0", "10010010010") != "10010010010" or \
-    #         add("11111","11111111111") != "100000011110":
-    #     print("3b - error in add")
-
-    # if pow_two("10", 2) != "1000" or \
-    #         pow_two("111", 3) != "111000" or \
-    #         pow_two("101", 1) != "1010" or \
-    #         pow_two("0", 10) != "0" or \
-    #         pow_two("0", 0) != "0" or \
-    #         pow_two("101", 0) != "101" or \
-    #         pow_two("101", 1) != "1010":
-    #     print("3c - error in pow_two")
-    #
-    # if div_two("10", 1) != "1" or \
-    #         div_two("101", 1) != "10" or \
-    #         div_two("1010", 2) != "10" or \
-    #         div_two("101010", 3) != "101" or \
-    #         div_two("1", 10) != "0" or \
-    #         div_two("0", 0) != "0" or \
-    #         div_two("0", 55) != "0" or \
-    #         div_two("1", 1) != "0" or \
-    #         div_two("10", 2) != "0" or \
-    #         div_two("1111", 10) != "0" or \
-    #         div_two("1111", 3) != "1":
-    #     print("3c - error in div_two")
-
-    # if not leq("1010", "1010") or \
-    #         leq("1010", "0") or \
-    #         leq("1011", "1010") or \
-    #         not leq("0", "1010") or \
-    #         not leq("0","0") or \
-    #         leq("1", "0") or \
-    #         not leq("1111", "1111") or \
-    #         leq("10", "1") or \
-    #         not leq("1101", "1111") or \
-    #         not leq("10000","11111") or \
-    #         leq("10101", "10100"):
-    #     print("3d - error in leq")
-
-    # if to_decimal("100101001110101010101010") != 9759402 or \
-    #         to_decimal("0") != 0 or \
-    #         to_decimal("1") != 1 or \
-    #         to_decimal("10") != 2 or \
-    #         to_decimal("1000") != 8 or \
-    #         to_decimal("1001") != 9:
-    #     print("3f - error in to_decimal")
-    # if divisors(6) != [1, 2, 3] or divisors(7) != [1] or divisors(1) != [] or divisors(24) != [1, 2, 3, 4, 6, 8, 12]:
-    #     print("5a - error in divisors")
-    #
-    # if perfect_numbers(1) != [6] or perfect_numbers(2) != [6, 28] or perfect_numbers(3) != [6, 28,
-    #                                                                                         496] or perfect_numbers(
-    #         4) != [6, 28, 496, 8128]:
-    #     print("5b - error in perfect_numbers")
-    #
-    # if abundant_density(20) != 0.15 or abundant_density(120) != (28/120):
-    #     print("5c - error in adundant_density")
-    #
-    # if semi_perfect_3(18) != [3, 6, 9] or semi_perfect_3(20) is not None:
-    #     print("5e - error in semi_perfect_3")
-
-
-test()
+# def test():
+#     # test 1a
+#     if print_rectangle(4, 5) != "*****\n*   *\n*   *\n*****" or \
+#             print_rectangle(3, 3) != "***\n* *\n***" or \
+#             print_rectangle(3,2) != "**\n**\n**" or \
+#             print_rectangle(2,3) != "***\n***" or \
+#             print_rectangle(5,3) != "***\n* *\n* *\n* *\n***" or \
+#             print_rectangle(5, 4) != '****\n*  *\n*  *\n*  *\n****' or \
+#             print_rectangle(1,1) != '*' or \
+#             print_rectangle(1,2) != '**' or \
+#             print_rectangle(2,2) != "**\n**":
+#         print("#1a - error in print_rectangle")
+#     # test 1b
+#     if x_o_winner(["eee", "xxx", "eoo"]) != "x" or \
+#             x_o_winner(["xee", "oxo", "eex"]) != "x" or \
+#             x_o_winner(["eex", "oxe", "xoe"]) != "x" or \
+#             x_o_winner(["oee", "oxx", "oeo"]) != "o" or \
+#             x_o_winner(["eee", "eee", "eeo"]) != "no winner" or \
+#             x_o_winner(["xox",
+#                         "oox",
+#                         "xxe"]) != "no winner" or \
+#             x_o_winner(["xox",
+#                         "oxx",
+#                         "xex"]) != "x" or \
+#             x_o_winner(["xoo",
+#                         "oxo",
+#                         "xxx"]) != "x" or \
+#             x_o_winner(["xoo",
+#                         "xox",
+#                         "oex"]) != "o":
+#         print("#1b - error in x_o_winner")
+#     # test 1c
+#     if valid_braces("(ab{cd}ef)") is not True or \
+#             valid_braces("{this(is]wrong") is not False or \
+#             valid_braces("{1:(a,b),2:[c,d)}") is not False or \
+#             valid_braces(".,(:::::::t{t)dd}rr her") is not False or \
+#             valid_braces("hgfsdfgh)h") is not False or \
+#             valid_braces(".{.") is not False or \
+#             valid_braces("sd( .,  (        }::      )") is not False or \
+#             valid_braces("(({.}{}.{,}[][]s(aaa)(a)a{,.[a{}.]}))") is not True or \
+#             valid_braces("([{([{}])}])") is not True or \
+#             valid_braces("{}}") is not False:
+#         print("#1c - error in valid_braces")
+#     # tests Q2
+#     for i in range(10):
+#         if coin() not in {True, False}:
+#             print("#2a - error in coin")
+#             break
+#     trues = 0
+#     falses =0
+#     for i in range(10000000):
+#         if(coin()):
+#             trues += 1
+#         else:
+#             falses +=1
+#     print(falses / 10000000, " ", trues / 10000000)
+#
+#     for i in range(1000000):
+#         if roll_dice(6) not in {1, 2, 3, 4, 5, 6} or \
+#                 roll_dice(100) not in {i for i in range(1, 101)} or \
+#                 roll_dice(2) not in {1,2}:
+#             print("2b - error in roll_dice")
+#             break
+#
+#     for i in range(10000):
+#         if (roulette(100, "even") not in {0, 200}) or (roulette(100, "odd") not in {0, 200}):
+#             print("2c - error in roulette")
+#             break
+#
+#     print(roulette_repeat(100, 10000000) / 10000000)
+#     counting = 0
+#     for i in range(100000):
+#         if shuffle_list([1, 2, 3, 4]) == [1, 2, 3, 4] or \
+#                 shuffle_list(["a", "b", "c", "d", "e"]) == ["a", "b", "c", "d", "e"] or \
+#                 shuffle_list([(1, 2), (3, 4), ("a", "b")]) == [(1, 2), (3, 4), ("a", "b")]:
+#             counting += 1
+#             print("2e - error in shuffle_list")
+#     if not 24 < avg_count_steps(5) < 26:  # very low probability that a good implementation will be out of this range
+#         print("2f - error in avg_count_steps")
+#     if count_steps_2dim(5) < 5 or \
+#             count_steps_2dim(10) < 10 or \
+#             count_steps_2dim(100) < 100:  # can't reach d in less than d steps
+#         print("2g - error in count_steps_2dim")
+#
+#     if inc("0") != "1" or \
+#             inc("1") != "10" or \
+#             inc("101") != "110" or \
+#             inc("111") != "1000" or \
+#             inc("1111111") != "10000000" or \
+#             inc("1110111") != "1111000":
+#         print("3a - error in inc")
+#
+#     if add("0", "1") != "1" or \
+#             add("0","0") != "0" or \
+#             add("1", "1") != "10" or \
+#             add("110", "11") != "1001" or \
+#             add("111", "111") != "1110" or \
+#             add("10101010", "11001100") != "101110110" or \
+#             add("0", "10010010010") != "10010010010" or \
+#             add("11111","11111111111") != "100000011110":
+#         print("3b - error in add")
+#
+#     if pow_two("10", 2) != "1000" or \
+#             pow_two("111", 3) != "111000" or \
+#             pow_two("101", 1) != "1010" or \
+#             pow_two("0", 10) != "0" or \
+#             pow_two("0", 0) != "0" or \
+#             pow_two("101", 0) != "101" or \
+#             pow_two("101", 1) != "1010":
+#         print("3c - error in pow_two")
+#
+#     if div_two("10", 1) != "1" or \
+#             div_two("101", 1) != "10" or \
+#             div_two("1010", 2) != "10" or \
+#             div_two("101010", 3) != "101" or \
+#             div_two("1", 10) != "0" or \
+#             div_two("0", 0) != "0" or \
+#             div_two("0", 55) != "0" or \
+#             div_two("1", 1) != "0" or \
+#             div_two("10", 2) != "0" or \
+#             div_two("1111", 10) != "0" or \
+#             div_two("1111", 3) != "1":
+#         print("3c - error in div_two")
+#
+#     if not leq("1010", "1010") or \
+#             leq("1010", "0") or \
+#             leq("1011", "1010") or \
+#             not leq("0", "1010") or \
+#             not leq("0","0") or \
+#             leq("1", "0") or \
+#             not leq("1111", "1111") or \
+#             leq("10", "1") or \
+#             not leq("1101", "1111") or \
+#             not leq("10000","11111") or \
+#             leq("10101", "10100"):
+#         print("3d - error in leq")
+#
+#     if to_decimal("100101001110101010101010") != 9759402 or \
+#             to_decimal("0") != 0 or \
+#             to_decimal("1") != 1 or \
+#             to_decimal("10") != 2 or \
+#             to_decimal("1000") != 8 or \
+#             to_decimal("1001") != 9:
+#         print("3f - error in to_decimal")
+#     if divisors(6) != [1, 2, 3] or divisors(7) != [1] or divisors(1) != [] or divisors(24) != [1, 2, 3, 4, 6, 8, 12]:
+#         print("5a - error in divisors")
+#
+#     if perfect_numbers(1) != [6] or perfect_numbers(2) != [6, 28] or perfect_numbers(3) != [6, 28, 496] or\
+#             perfect_numbers(4) != [6, 28, 496, 8128]:
+#         print("5b - error in perfect_numbers")
+#
+#     if abundant_density(12) != 1/12 or abundant_density(13) != 1/13 or abundant_density(19) != 2/19 or\
+#             abundant_density(20) != 0.15 or abundant_density(120) != (28/120):
+#         print("5c - error in abundant_density")
+#
+#     if semi_perfect_3(18) != [3, 6, 9] or semi_perfect_3(20) is not None or semi_perfect_3(24) != [4, 8, 12] or \
+#             semi_perfect_3(30) != [5, 10, 15]:
+#         print("5e - error in semi_perfect_3")
