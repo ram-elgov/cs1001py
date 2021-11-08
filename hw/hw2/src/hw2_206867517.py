@@ -5,8 +5,6 @@
 # you may NOT change the signature of the existing functions.
 
 # Change the name of the file to include your ID number (hw2_ID.py).
-import time
-import math
 import random  # loads python's random module in order to use random.random() in question 2
 
 
