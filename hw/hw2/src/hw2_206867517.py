@@ -96,6 +96,7 @@ def valid_braces(s):
         return False
     return True
 
+
 ##############
 # QUESTION 2 #
 ##############
@@ -108,7 +109,8 @@ def coin():
 
 # 2b
 def roll_dice(d):
-    return random.randint(1, d)
+    rand = d * random.random()
+    return int(rand // 1) + 1
 
 
 # 2c
@@ -133,10 +135,8 @@ def parity_value(number):
 def roulette_repeat(bet_size, n):
     accumulated_profit = 0
     for i in range(n):
-        if coin():
-            accumulated_profit += (roulette(bet_size, "even") - bet_size)
-        else:
-            (roulette(bet_size, "odd") - bet_size)
+        accumulated_profit += (roulette(bet_size, "even") - bet_size) if coin() \
+            else (roulette(bet_size, "odd") - bet_size)
     return accumulated_profit
 
 
@@ -146,7 +146,7 @@ def roulette_repeat(bet_size, n):
 # 2e
 def shuffle_list(lst):
     shuffled_list = lst[:]
-    indexes = set()
+    indexes = []
 
     def random_index(x):
         return roll_dice(x) - 1
@@ -155,10 +155,13 @@ def shuffle_list(lst):
     while len(indexes) < len(lst) and i < len(lst):
         index = random_index(len(lst))
         if index not in indexes:
-            indexes.add(index)
+            indexes.append(index)
             shuffled_list[i] = lst[index]
             i += 1
-    return shuffled_list
+    if indexes == [i for i in range(len(lst))]:  # to prevent getting the same list after a shuffle
+        return shuffle_list(lst)
+    else:
+        return shuffled_list
 
 
 # 2f
@@ -183,7 +186,7 @@ def count_steps_2dim(d):
     x = 0
     y = 0
     count = 0
-    while euclidean_size_of(x, y) < d:
+    while (x**2 + y**2) < d**2:
         count += 1
         step = roll_dice(4)
         if step == 1:
@@ -194,12 +197,8 @@ def count_steps_2dim(d):
             y += 1
         else:
             y -= 1
-    print(count)
+
     return count
-
-
-def euclidean_size_of(x, y):
-    return math.sqrt(x ** 2 + y ** 2)
 
 
 ##############
@@ -209,16 +208,16 @@ def euclidean_size_of(x, y):
 
 # 3a
 def inc(binary):
-    flag = False
+    carry = True
     binary_list = list(binary)
     for i in range(len(binary_list) - 1, -1, -1):
         if binary_list[i] == "1":
             binary_list[i] = "0"
         else:
             binary_list[i] = "1"
-            flag = True
+            carry = False
             return "".join(binary_list)
-    if not flag:
+    if carry:
         return "".join(["0" if i > 0 else "1" for i in range(len(binary_list) + 1)])
 
 
@@ -351,9 +350,15 @@ def test():
     # test 1a
     # if print_rectangle(4, 5) != "*****\n*   *\n*   *\n*****" or \
     #         print_rectangle(3, 3) != "***\n* *\n***" or \
-    #         print_rectangle(5, 4) != '****\n*  *\n*  *\n*  *\n****':
+    #         print_rectangle(3,2) != "**\n**\n**" or \
+    #         print_rectangle(2,3) != "***\n***" or \
+    #         print_rectangle(5,3) != "***\n* *\n* *\n* *\n***" or \
+    #         print_rectangle(5, 4) != '****\n*  *\n*  *\n*  *\n****' or \
+    #         print_rectangle(1,1) != '*' or \
+    #         print_rectangle(1,2) != '**' or \
+    #         print_rectangle(2,2) != "**\n**":
     #     print("#1a - error in print_rectangle")
-    # # test 1b
+    # test 1b
     # if x_o_winner(["eee", "xxx", "eoo"]) != "x" or \
     #         x_o_winner(["xee", "oxo", "eex"]) != "x" or \
     #         x_o_winner(["eex", "oxe", "xoe"]) != "x" or \
@@ -373,35 +378,44 @@ def test():
     #                     "oex"]) != "o":
     #     print("#1b - error in x_o_winner")
     # test 1c
-    if valid_braces("(ab{cd}ef)") is not True or \
-            valid_braces("{this(is]wrong") is not False or \
-            valid_braces("{1:(a,b),2:[c,d)}") is not False or \
-            valid_braces(".,(:::::::t{t)dd}rr her") is not False or \
-            valid_braces("hgfsdfgh)h") is not False or \
-            valid_braces(".{.") is not False or \
-            valid_braces("sd( .,  (        }::      )") is not False or \
-            valid_braces("(({.}{}.{,}[][]s(aaa)(a)a{,.[a{}.]}))") is not True or \
-            valid_braces("([{([{}])}])") is not True or \
-            valid_braces("{}}") is not False:
-        print("#1c - error in valid_braces")
-
+    # if valid_braces("(ab{cd}ef)") is not True or \
+    #         valid_braces("{this(is]wrong") is not False or \
+    #         valid_braces("{1:(a,b),2:[c,d)}") is not False or \
+    #         valid_braces(".,(:::::::t{t)dd}rr her") is not False or \
+    #         valid_braces("hgfsdfgh)h") is not False or \
+    #         valid_braces(".{.") is not False or \
+    #         valid_braces("sd( .,  (        }::      )") is not False or \
+    #         valid_braces("(({.}{}.{,}[][]s(aaa)(a)a{,.[a{}.]}))") is not True or \
+    #         valid_braces("([{([{}])}])") is not True or \
+    #         valid_braces("{}}") is not False:
+    #     print("#1c - error in valid_braces")
+    # tests Q2
     # for i in range(10):
     #     if coin() not in {True, False}:
     #         print("#2a - error in coin")
     #         break
-    #
+    # trues = 0
+    # falses =0
+    # for i in range(10000000):
+    #     if(coin()):
+    #         trues += 1
+    #     else:
+    #         falses +=1
+    # print(falses / 10000000, " ", trues / 10000000)
+
     # for i in range(1000000):
-    #     if roll_dice(6) not in {1, 2, 3, 4, 5, 6}:
+    #     if roll_dice(6) not in {1, 2, 3, 4, 5, 6} or \
+    #             roll_dice(100) not in {i for i in range(1, 101)} or \
+    #             roll_dice(2) not in {1,2}:
     #         print("2b - error in roll_dice")
     #         break
-    #
+
     # for i in range(10000):
     #     if (roulette(100, "even") not in {0, 200}) or (roulette(100, "odd") not in {0, 200}):
     #         print("2c - error in roulette")
     #         break
     #
-    # roulette_repeat() test
-    # print(roulette_repeat(100, 100000) / 100000)
+    # print(roulette_repeat(100, 10000000) / 10000000)
     # counting = 0
     # for i in range(100000):
     #     if shuffle_list([1, 2, 3, 4]) == [1, 2, 3, 4] or \
@@ -411,16 +425,18 @@ def test():
     #         print("2e - error in shuffle_list")
     # if not 24 < avg_count_steps(5) < 26:  # very low probability that a good implementation will be out of this range
     #     print("2f - error in avg_count_steps")
-    # if count_steps_2dim(5) < 5:  # can't reach d in less than d steps
+    # if count_steps_2dim(5) < 5 or \
+    #         count_steps_2dim(10) < 10 or \
+    #         count_steps_2dim(100) < 100:  # can't reach d in less than d steps
     #     print("2g - error in count_steps_2dim")
-    #
-    # if inc("0") != "1" or \
-    #         inc("1") != "10" or \
-    #         inc("101") != "110" or \
-    #         inc("111") != "1000" or \
-    #         inc("1111111") != "10000000" or \
-    #         inc(inc("111")) != "1001":
-    #     print("3a - error in inc")
+
+    if inc("0") != "1" or \
+            inc("1") != "10" or \
+            inc("101") != "110" or \
+            inc("111") != "1000" or \
+            inc("1111111") != "10000000" or \
+            inc("1110111") != "1111000":
+        print("3a - error in inc")
     #
     # if add("0", "1") != "1" or \
     #         add("1", "1") != "10" or \
