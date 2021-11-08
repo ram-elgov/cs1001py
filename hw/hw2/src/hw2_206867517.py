@@ -234,7 +234,7 @@ def add(bin1, bin2):
                 result += "1"
             else:
                 result += "0"
-        elif int(bin1[i]) & int(bin2[i]):
+        elif bin1[i] == "1" and bin2[i] == "1":
             result += "0" if not cary else "1"
             cary = 1
         else:
@@ -243,13 +243,17 @@ def add(bin1, bin2):
                 cary = 0
             else:
                 result += "0"
-    if cary:
+    if cary:   # if digits carried until the end of the operation
         result += "1"
-    return "".join(list(result)[::-1])
+    return "".join(list(result)[::-1])  # reverse the natural order of concatenation
 
 
 # 3c
 def pow_two(binary, power):
+    if binary == "0":
+        return "0"
+    if power == 0:
+        return binary
     result = list(binary)[::-1]
     result = "".join(result)
     result = result.zfill(len(binary) + power)
@@ -257,13 +261,15 @@ def pow_two(binary, power):
 
 
 # 3d
-# def div_two(binary, power)
-#     result = int(binary)
-#     for i in range(power):
-#         result //= 10
-#         if not result:
-#             break
-#     return str(result)
+def div_two(binary, power):
+    if binary == "0":
+        return "0"
+    if power == 0:
+        return binary
+    binary = list(binary)
+    if power >= len(binary):
+        return "0"
+    return "".join([binary[i] for i in range(len(binary) - power)])
 
 
 # 3e
@@ -274,17 +280,18 @@ def leq(bin1, bin2):
         return True
     else:
         for i in range(len(bin1)):
-            if bin1[i] != bin2[i]:
+            if bin1[i] == "1" and bin2[i] == "0":
                 return False
     return True
 
 
 # 3f
-# def to_decimal(binary)
-#     decimal_value = 0
-#     for i in range(len(binary)):
-#         decimal_value += 2**((len(binary) - 1) - i) * int(binary[i])
-#     return decimal_value
+def to_decimal(binary):
+    result = 0
+    reversed_binary_lst = list(binary)[::-1]
+    for i in range(len(reversed_binary_lst)):
+        result += 0 if reversed_binary_lst[i] == "0" else 2**i
+    return result
 
 
 ##############
@@ -430,15 +437,16 @@ def test():
     #         count_steps_2dim(100) < 100:  # can't reach d in less than d steps
     #     print("2g - error in count_steps_2dim")
 
-    if inc("0") != "1" or \
-            inc("1") != "10" or \
-            inc("101") != "110" or \
-            inc("111") != "1000" or \
-            inc("1111111") != "10000000" or \
-            inc("1110111") != "1111000":
-        print("3a - error in inc")
+    # if inc("0") != "1" or \
+    #         inc("1") != "10" or \
+    #         inc("101") != "110" or \
+    #         inc("111") != "1000" or \
+    #         inc("1111111") != "10000000" or \
+    #         inc("1110111") != "1111000":
+    #     print("3a - error in inc")
     #
     # if add("0", "1") != "1" or \
+    #         add("0","0") != "0" or \
     #         add("1", "1") != "10" or \
     #         add("110", "11") != "1001" or \
     #         add("111", "111") != "1110" or \
@@ -446,9 +454,13 @@ def test():
     #         add("0", "10010010010") != "10010010010" or \
     #         add("11111","11111111111") != "100000011110":
     #     print("3b - error in add")
-    #
+
     # if pow_two("10", 2) != "1000" or \
     #         pow_two("111", 3) != "111000" or \
+    #         pow_two("101", 1) != "1010" or \
+    #         pow_two("0", 10) != "0" or \
+    #         pow_two("0", 0) != "0" or \
+    #         pow_two("101", 0) != "101" or \
     #         pow_two("101", 1) != "1010":
     #     print("3c - error in pow_two")
     #
@@ -456,19 +468,35 @@ def test():
     #         div_two("101", 1) != "10" or \
     #         div_two("1010", 2) != "10" or \
     #         div_two("101010", 3) != "101" or \
-    #         div_two("1",10) != "0":
+    #         div_two("1", 10) != "0" or \
+    #         div_two("0", 0) != "0" or \
+    #         div_two("0", 55) != "0" or \
+    #         div_two("1", 1) != "0" or \
+    #         div_two("10", 2) != "0" or \
+    #         div_two("1111", 10) != "0" or \
+    #         div_two("1111", 3) != "1":
     #     print("3c - error in div_two")
-    #
+
     # if not leq("1010", "1010") or \
     #         leq("1010", "0") or \
     #         leq("1011", "1010") or \
-    #         not leq("0", "1010"):
+    #         not leq("0", "1010") or \
+    #         not leq("0","0") or \
+    #         leq("1", "0") or \
+    #         not leq("1111", "1111") or \
+    #         leq("10", "1") or \
+    #         not leq("1101", "1111") or \
+    #         not leq("10000","11111") or \
+    #         leq("10101", "10100"):
     #     print("3d - error in leq")
+
     # if to_decimal("100101001110101010101010") != 9759402 or \
     #         to_decimal("0") != 0 or \
     #         to_decimal("1") != 1 or \
-    #         to_decimal("10") != 2:
-    #     print(print("3f - error in to_decimal"))
+    #         to_decimal("10") != 2 or \
+    #         to_decimal("1000") != 8 or \
+    #         to_decimal("1001") != 9:
+    #     print("3f - error in to_decimal")
     # if divisors(6) != [1, 2, 3] or divisors(7) != [1] or divisors(1) != [] or divisors(24) != [1, 2, 3, 4, 6, 8, 12]:
     #     print("5a - error in divisors")
     #
