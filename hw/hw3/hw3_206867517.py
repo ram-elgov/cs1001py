@@ -115,7 +115,7 @@ def swap(lst, i1, i2):
 
 # Q4 - C
 def find_local_min(lst):
-    """ input: non empty list return: a local minima index """
+    """ input: non empty list return: index of a local minima """
     left = 0
     right = len(lst) - 1
     while left <= right:
@@ -168,12 +168,28 @@ def int_to_string(k, n):
 
 # Q5 - C
 def sort_strings1(lst, k):
-    pass  # replace this with your code
+    """  sort list of words at O(kn + 5**k) """
+    total_number_of_words = 5 ** k
+    output = []
+    lexico = [0 for i in range(total_number_of_words)]  # time and memory: O(5**k)
+    for word in lst:  # time: O(n)
+        lexico[string_to_int(word)] += 1  # time: O(k)
+    for i in range(total_number_of_words):  # time: O(5**k)
+        for j in range(lexico[i]):  # total number of iterations: O(n) (as number of words in lst)
+            output.append(int_to_string(k, i))  # time: O(k)
+    return output
 
 
 # Q5 - E
 def sort_strings2(lst, k):
-    pass  # replace this with your code
+    """  sort list of words at O((5**k) * kn) """
+    total_number_of_words = 5 ** k
+    output = []
+    for i in range(total_number_of_words):  # O(5**k)
+        for word in lst:  # O(n)
+            if string_to_int(word) == i:  # O(k)
+                output.append(word)
+    return output
 
 
 ##########
@@ -181,42 +197,42 @@ def sort_strings2(lst, k):
 ##########
 def test():
     # Q2 - C
-    # if bin_to_fraction('01101') != 0.40625 or bin_to_fraction('1010000') != 0.625:
-    #     print('error in bin_to_fraction')
+    if bin_to_fraction('01101') != 0.40625 or bin_to_fraction('1010000') != 0.625:
+        print('error in bin_to_fraction')
     # Q2 - D
-    # if bin_to_float('00111110001000000000000000000000') != 0.15625:
-    #     print("error in bin_to_float")
-    # # Q2 - E
-    # if is_greater_equal('00111110001000000000000000000000', '00111111001000000000000000000000') == True or \
-    #         is_greater_equal('00111110001000000000000000000000', '00111110001000000000000000000000') == False:
-    #     print("error in is_greater_equal")
-    # # Q3 - A
-    # if approx_root(2, 0.1) != ([1, 3], 1 + 1 / 3):
-    #     print("error in approx_root (1)")
-    # if approx_root(2, 0.02) != ([1, 3, 5], 1 + 1 / 3 + 1 / 15):
-    #     print("error in approx_root (2)")
-    # if approx_root(2, 0.001) != ([1, 3, 5, 5], 1 + 1 / 3 + 1 / 15 + 1 / 75):
-    #     print("error in approx_root (3)")
-    # # Q3 - B
-    # if abs(approx_e(1000000) - math.e) > 0.01:
-    #     print("MOST LIKELY there's an error in approx_e (this is a probabilistic test)")
-    #
+    if bin_to_float('00111110001000000000000000000000') != 0.15625:
+        print("error in bin_to_float")
+    # Q2 - E
+    if is_greater_equal('00111110001000000000000000000000', '00111111001000000000000000000000') == True or \
+            is_greater_equal('00111110001000000000000000000000', '00111110001000000000000000000000') == False:
+        print("error in is_greater_equal")
+    # Q3 - A
+    if approx_root(2, 0.1) != ([1, 3], 1 + 1 / 3):
+        print("error in approx_root (1)")
+    if approx_root(2, 0.02) != ([1, 3, 5], 1 + 1 / 3 + 1 / 15):
+        print("error in approx_root (2)")
+    if approx_root(2, 0.001) != ([1, 3, 5, 5], 1 + 1 / 3 + 1 / 15 + 1 / 75):
+        print("error in approx_root (3)")
+    # Q3 - B
+    if abs(approx_e(1000000) - math.e) > 0.01:
+        print("MOST LIKELY there's an error in approx_e (this is a probabilistic test)")
+
     # Q4 - A
-    # almost_sorted_lst = [2, 1, 3, 5, 4, 7, 6, 8, 9]
-    # if find(almost_sorted_lst, 5) != 3:
-    #     print("error in find")
-    # if find(almost_sorted_lst, 50) is not None:
-    #     print("error in find")
-    # # Q4 - B
-    # if sort_from_almost(almost_sorted_lst) != sorted(almost_sorted_lst) or \
-    #         not (sort_from_almost(almost_sorted_lst) is almost_sorted_lst):
-    #     print("error in sort_from_almost")
+    almost_sorted_lst = [2, 1, 3, 5, 4, 7, 6, 8, 9]
+    if find(almost_sorted_lst, 5) != 3:
+        print("error in find")
+    if find(almost_sorted_lst, 50) is not None:
+        print("error in find")
+    # Q4 - B
+    if sort_from_almost(almost_sorted_lst) != sorted(almost_sorted_lst) or \
+            not (sort_from_almost(almost_sorted_lst) is almost_sorted_lst):
+        print("error in sort_from_almost")
 
     # Q4 - C
-    # lst = [5, 6, 7, 5, 1, 1, 99, 100]
-    # pos = find_local_min(lst)
-    # if pos not in (0, 4, 5):
-    #     print("error in find_local_min")
+    lst = [5, 6, 7, 5, 1, 1, 99, 100]
+    pos = find_local_min(lst)
+    if pos not in (0, 4, 5):
+        print("error in find_local_min")
 
     # Q5
     lst_num = [random.choice(range(5 ** 4)) for _ in range(15)]
@@ -235,14 +251,12 @@ def test():
         if int_to_string(3, string_to_int(item)) != item:
             print("Problem with ", item)
 
-    # lst1 = ['aede', 'adae', 'dded', 'deea', 'cccc', 'aacc', 'edea', 'becb', 'daea', 'ccea']
-    # if sort_strings1(lst1, 4) \
-    #         != ['aacc', 'adae', 'aede', 'becb', 'cccc', 'ccea', 'daea', 'dded', 'deea', 'edea']:
-    #     print("error in sort_strings1")
-    #
-    # if sort_strings2(lst1, 4) \
-    #         != ['aacc', 'adae', 'aede', 'becb', 'cccc', 'ccea', 'daea', 'dded', 'deea', 'edea']:
-    #     print("error in sort_strings2")
+    lst1 = ['aede', 'adae', 'dded', 'deea', 'cccc', 'aacc', 'edea', 'becb', 'daea', 'ccea']
+    if sort_strings1(lst1, 4) \
+            != ['aacc', 'adae', 'aede', 'becb', 'cccc', 'ccea', 'daea', 'dded', 'deea', 'edea']:
+        print("error in sort_strings1")
 
+    if sort_strings2(lst1, 4) \
+            != ['aacc', 'adae', 'aede', 'becb', 'cccc', 'ccea', 'daea', 'dded', 'deea', 'edea']:
+        print("error in sort_strings2")
 
-test()
