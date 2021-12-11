@@ -171,7 +171,7 @@ def sort_strings1(lst, k):
     """  sort list of words at O(kn + 5**k) """
     total_number_of_words = 5 ** k
     output = []
-    lexico = [0 for i in range(total_number_of_words)]  # time and memory: O(5**k)
+    lexico = [0 for _ in range(total_number_of_words)]  # time and memory: O(5**k)
     for word in lst:  # time: O(n)
         lexico[string_to_int(word)] += 1  # time: O(k)
     for i in range(total_number_of_words):  # time: O(5**k)
@@ -259,4 +259,3 @@ def test():
     if sort_strings2(lst1, 4) \
             != ['aacc', 'adae', 'aede', 'becb', 'cccc', 'ccea', 'daea', 'dded', 'deea', 'edea']:
         print("error in sort_strings2")
-

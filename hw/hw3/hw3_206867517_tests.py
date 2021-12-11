@@ -1,8 +1,8 @@
 import math
 import unittest
 
-import hw3_206867517 as hw3
-
+# import hw3_206867517 as hw3
+import hw3_206867517frommoodle as hw3
 
 class TestHm3(unittest.TestCase):
     def test_bin_to_fraction(self):
