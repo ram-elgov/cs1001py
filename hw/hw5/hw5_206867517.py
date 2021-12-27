@@ -13,6 +13,8 @@ import random
 ##############
 # QUESTION 2 #
 ##############
+
+
 def merge(A, B):
     """ merging two lists into a sorted list
         A and B must be sorted! """
@@ -81,9 +83,12 @@ class FactoredInteger:
 
     # 2b
     def __repr__(self):
-        return "<{0}:{1}>".format(str(self.number),
-                                  "".join([str(i) + "*" if i != self.factors[-1] else str(self.factors[-1]) for i
-                                           in self.factors]))
+        s = ""
+        if len(self.factors) > 0:
+            for i in range(len(self.factors) - 1):
+                s += str(self.factors[i]) + '*'
+            s += str(self.factors[-1])
+        return "<{0}:{1}>".format(str(self.number), s)
 
     def __eq__(self, other):
         return isinstance(other, FactoredInteger) and self.number == other.number
@@ -145,7 +150,6 @@ class FactoredInteger:
 ##############
 # QUESTION 3 #
 ##############
-
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -324,21 +328,43 @@ class Polygon:
     def edges(self):
         angles = []
         curr = self.point_head
-        left = self.point_head
-        while left.next is not None:
+        left = curr.next
+        right = self.point_head
+        while right.next is not None:
+            right = right.next
+        while left is not None:
+            angles.append(calculate_angle(right.value, curr.value, left.value))
             left = left.next
-        right = curr.next
-        while curr.next is not None:
-            angles.append(calculate_angle(left.value, curr.value, right.value))
-            left = curr
+            right = curr
             curr = curr.next
-            right = curr.next
-        angles.append(calculate_angle(left.value, curr.value, self.point_head.value))
+        angles.append(calculate_angle(right.value, curr.value, self.point_head.value))
+        if sum(angles) > 180 * (len(angles) - 2):
+            for i in range(len(angles)):
+                angles[i] = 360 - angles[i]
         return angles
 
     # 3b_iii
     def simple(self):
-        pass
+        segment_set = set()
+        from_point = self.point_head
+        if self.point_head is None or self.point_head.next is None:
+            return False
+        to_point = self.point_head.next
+        while to_point is not None:
+            segment_set.add(Segment(from_point.value, to_point.value))
+            to_point = to_point.next
+            from_point = from_point.next
+        segment_set.add(Segment(from_point.value, self.point_head.value))
+
+        not_simple = 0
+        for s in segment_set:
+            for k in segment_set:
+                if s.intersecting(k):
+                    not_simple = 1
+                    break
+            if not_simple:
+                return False
+        return True
 
 
 ##############
@@ -357,7 +383,7 @@ def printree(t, bykey=True):
 def trepr(t, bykey=False):
     """Return a list of textual representations of the levels in t
     bykey=True: show keys instead of values"""
-    if t == None:
+    if t is None:
         return ["#"]
 
     thistr = str(t.key) if bykey else str(t.val)
@@ -419,7 +445,23 @@ def rightspace(row):
     return i
 
 
-class Tree_node():
+def height(root):
+    if root is None:
+        return -1
+    return 1 + max(height(root.right), height(root.left))
+
+
+def diam_rec(root, diam):
+    if root is None:
+        return 0, diam
+    h_left, diam_left = diam_rec(root.left, diam)
+    h_right, diam_right = diam_rec(root.right, diam)
+
+    diam = max(h_left + h_right + 1, max(diam_left, diam_right))
+    return max(h_left, h_right) + 1, diam
+
+
+class Tree_node:
     def __init__(self, key, val):
         self.key = key
         self.val = val
@@ -430,7 +472,7 @@ class Tree_node():
         return "(" + str(self.key) + ":" + str(self.val) + ")"
 
 
-class Binary_search_tree():
+class Binary_search_tree:
 
     def __init__(self):
         self.root = None
@@ -454,10 +496,10 @@ class Binary_search_tree():
         return result
 
     def lookup(self, key):
-        ''' return node with key, uses recursion '''
+        """ return node with key, uses recursion """
 
         def lookup_rec(node, key):
-            if node == None:
+            if node is None:
                 return None
             elif key == node.key:
                 return node
@@ -469,35 +511,45 @@ class Binary_search_tree():
         return lookup_rec(self.root, key)
 
     def insert(self, key, val):
-        ''' insert node with key,val into tree, uses recursion '''
+        """ insert node with key,val into tree, uses recursion """
 
         def insert_rec(node, key, val):
             if key == node.key:
                 node.val = val  # update the val for this key
             elif key < node.key:
-                if node.left == None:
+                if node.left is None:
                     node.left = Tree_node(key, val)
                 else:
                     insert_rec(node.left, key, val)
             else:  # key > node.key:
-                if node.right == None:
+                if node.right is None:
                     node.right = Tree_node(key, val)
                 else:
                     insert_rec(node.right, key, val)
             return
 
-        if self.root == None:  # empty tree
+        if self.root is None:  # empty tree
             self.root = Tree_node(key, val)
         else:
             insert_rec(self.root, key, val)
 
     # 4a
     def diam(self):
-        pass  # replace this with your code
+        return diam_rec(self.root, 0)[1]
 
     # 4b
     def cumsum(self):
-        pass  # replace this with your code
+        s = []
+
+        def cumsum_rec(root, st):
+            if root is None:
+                return
+            cumsum_rec(root.left, st)
+            st.append(root.key)
+            root.key = "".join(st)
+            cumsum_rec(root.right, st)
+
+        return cumsum_rec(self.root, s)
 
 
 ############
@@ -505,8 +557,22 @@ class Binary_search_tree():
 ############
 
 # 5a
+def overlap(s1, s2, k):
+    for i in range(k):
+        if s1[i] != s2[len(s2) - k + i]:
+            return False
+    return True
+
+
 def prefix_suffix_overlap(lst, k):
-    pass  # replace this with your code
+    n = len(lst)
+    res = []
+    for i in range(n):
+        for j in range(n):
+            if i != j:
+                if overlap(lst[i], lst[j], k):
+                    res.append((i, j))
+    return res
 
 
 # 5c
@@ -527,14 +593,39 @@ class Dict:
         item = [key, value]  # pack into one item
         self.table[i].append(item)
 
-    def find(self, key):
+    def find(self, key):  # O(k)
         """ returns ALL values of key as a list, empty list if none """
-        pass  # replace this with your code
+        res = []
+        for entity in self.table[self.hash_mod(key)]:  # O(1) because by the assumptions there can be only 1 string
+            # with the corresponding key (prefix)
+            if key == entity[0]:  # O(k)
+                res.append(entity[1])  # O(1)
+        return res
 
 
 # 5d
-def prefix_suffix_overlap_hash1(lst, k):
-    pass  # replace this with your code
+def init_prefix_dict(lst, k, n, dict):
+    for i in range(n):  # O(n)
+        dict.insert(lst[i][:k], i)  # O(k) as hashing takes O(k)
+
+
+def overlaps(lst, k, n, dict):  # o(nk)
+    res = []
+    for j in range(n):  # O(n)
+        suffix = lst[j][(len(lst[j]) - k):]  # O(1)
+        sj_matches = dict.find(suffix)  # list of indices with si's whose prefix equals sj suffix, O(k).
+        for i in sj_matches:  # O(1)
+            if i != j:  # never executed because by the assumptions there are no overlaps.
+                if overlap(lst[i], lst[j], k):
+                    res.append((i, j))
+    return res
+
+
+def prefix_suffix_overlap_hash1(lst, k):  # O(nk)
+    n = len(lst)
+    dict = Dict(n // 2)  # O(n)
+    init_prefix_dict(lst, k, n, dict)  # O(nk)
+    return overlaps(lst, k, n, dict)  # O(nk)
 
 
 ##########
@@ -589,9 +680,9 @@ def test():
             Point.angle_between_points(p2, p1) != 1.75 * math.pi or Point.angle_between_points(p2, p2) != 0:
         print("3a_i - error in angle_between_points")
 
-    trees = [Point(2, 1), Point(-1, 1), Point(-1, -1), Point(0, 3), Point(0, -5), Point(-1, 3)]
     trees1 = [Point(1, 1)]
     trees2 = [Point(1, 1), Point(-1, 1)]
+    trees = [Point(2, 1), Point(-1, 1), Point(-1, -1), Point(0, 3), Point(0, -5), Point(-1, 3)]
     if find_optimal_angle(trees, 0.25 * math.pi) != 0.5 * math.pi or \
             find_optimal_angle(trees1, 0.25 * math.pi) != 0.25 * math.pi or \
             find_optimal_angle(trees2, 0.25 * math.pi) != 0.25 * math.pi or \
@@ -608,77 +699,123 @@ def test():
 
     parallelogram = Polygon(Linked_list([Point(1, 1), Point(4, 4), Point(8, 4), Point(5, 1)]))
     test_angles(parallelogram.edges(), [45.0, 135.0, 45.0, 135.0])
+    parallelogram1 = Polygon(Linked_list([Point(4, 4), Point(8, 4), Point(5, 1), Point(1, 1)]))
+    test_angles(parallelogram1.edges(), [135.0, 45.0, 135.0, 45.0])
+    parallelogram_reverse = Polygon(Linked_list([Point(5, 1), Point(8, 4), Point(4, 4), Point(1, 1)]))
+    test_angles(parallelogram_reverse.edges(), [135.0, 45.0, 135.0, 45.0])
+    parallelogram_counter = Polygon(Linked_list([Point(1, 1), Point(5, 1), Point(8, 4), Point(4, 4)]))
+    test_angles(parallelogram_counter.edges(), [45.0, 135.0, 45.0, 135.0])
     other_poly = Polygon(Linked_list([Point(1, 1), Point(1, 3), Point(2, 3), Point(3, 1)]))
     test_angles(other_poly.edges(), [90.0, 90.0, 116.5, 63.4])
+    other_poly1 = Polygon(Linked_list([Point(2, 3), Point(3, 1), Point(1, 1), Point(1, 3)]))
+    test_angles(other_poly1.edges(), [116.5, 63.4, 90.0, 90.0])
+    triangle = Polygon(Linked_list([Point(0, 0), Point(0, 1), Point(1, 1)]))
+    test_angles(triangle.edges(), [45.0, 90.0, 45.0])
+    triangle2 = Polygon(Linked_list([Point(0, 0), Point(1, 0), Point(1, 1)]))
+    test_angles(triangle2.edges(), [45.0, 90.0, 45.0])
 
     not_simple = Polygon(Linked_list([Point(1, 1), Point(8, 4), Point(4, 4), Point(5, 1)]))
+    not_simple2 = Polygon(Linked_list([Point(1, 3), Point(2, 5), Point(1.5, 0), Point(3, 3)]))
+    not_simple_with_doubling = Polygon(Linked_list([Point(1, 1), Point(8, 4), Point(4, 4), Point(1, 1), Point(4, 4),
+                                                    Point(5, 1)]))
+    if not_simple.simple():
+        print("3a_iii - error in Polygon.simple")
+    if not parallelogram.simple():
+        print("3a_iii - error in Polygon.simple")
+    if not other_poly.simple():
+        print("3a_iii - error in Polygon.simple")
+    if not_simple2.simple():
+        print("3a_iii - error in Polygon.simple")
+    if not_simple_with_doubling.simple():
+        print("3a_iii - error in Polygon.simple")
 
-    # if not_simple.simple():
-    #     print("3a_iii - error in Polygon.simple")
-    # if not parallelogram.simple():
-    #     print("3a_iii - error in Polygon.simple")
-    # if not other_poly.simple():
-    #     print("3a_iii - error in Polygon.simple")
-    #
-    # ##############
-    # # QUESTION 4 #
-    # #   TESTER   #
-    # ##############
-    #
-    # # 4a
-    # t2 = Binary_search_tree()
-    # t2.insert('c', 10)
-    # t2.insert('a', 10)
-    # t2.insert('b', 10)
-    # t2.insert('g', 10)
-    # t2.insert('e', 10)
-    # t2.insert('d', 10)
-    # t2.insert('f', 10)
-    # t2.insert('h', 10)
-    # if t2.diam() != 6:
-    #     print("4a - error in diam")
-    #
-    # t3 = Binary_search_tree()
-    # t3.insert('c', 1)
-    # t3.insert('g', 3)
-    # t3.insert('e', 5)
-    # t3.insert('d', 7)
-    # t3.insert('f', 8)
-    # t3.insert('h', 6)
-    # t3.insert('z', 6)
-    # if t3.diam() != 5:
-    #     print("4a - error in diam")
-    #
-    # # 4b
-    # t3.cumsum()
-    # if str(t3.inorder()) != "[('c', 1), ('cd', 7), ('cde', 5), ('cdef', 8), ('cdefg', 3), ('cdefgh', 6), ('cdefghz', 6)]":
-    #     print("4b - error in cumsum")
-    # t2.cumsum()
-    # if str(t2.inorder()) != "[('a', 10), ('ab', 10), ('abc', 10), ('abcd', 10), ('abcde', 10), ('abcdef', 10), ('abcdefg', 10), ('abcdefgh', 10)]":
-    #     print("4b - error in cumsum")
-    #
-    # ##############
-    # # QUESTION 5 #
-    # #   TESTER   #
-    # ##############
-    # # 5a
-    # lst = ["abcd", "cdab", "aaaa", "bbbb", "abff"]
-    # k = 2
-    # if sorted(prefix_suffix_overlap(lst, k)) != sorted([(0, 1), (1, 0), (4, 1)]):
-    #     print("error in prefix_suffix_overlap")
-    #
-    # # 5c
-    # d = Dict(3)
-    # d.insert("a", 56)
-    # d.insert("a", 34)
-    # if sorted(d.find("a")) != sorted([56, 34]) or d.find("b") != []:
-    #     print("error in Dict.find")
-    #
-    # # 5d
-    # lst = ["abcd", "cdab", "aaaa", "bbbb", "abff"]
-    # k = 2
-    # if sorted(prefix_suffix_overlap_hash1(lst, k)) != sorted([(0, 1), (1, 0), (4, 1)]):
-    #     print("error in prefix_suffix_overlap_hash1")
+    ##############
+    # QUESTION 4 #
+    #   TESTER   #
+    ##############
 
+    # 4a
+    t1 = Binary_search_tree()
+    t1.insert('e', 10)
+    t1.insert('c', 10)
+    t1.insert('g', 10)
+    t1.insert('z', 10)
+    if t1.diam() != 4:
+        print("4a - error in diam")
 
-test()
+    t2 = Binary_search_tree()
+    t2.insert('c', 10)
+    t2.insert('a', 10)
+    t2.insert('b', 10)
+    t2.insert('g', 10)
+    t2.insert('e', 10)
+    t2.insert('d', 10)
+    t2.insert('f', 10)
+    t2.insert('h', 10)
+    if t2.diam() != 6:
+        print("4a - error in diam")
+
+    t3 = Binary_search_tree()
+    t3.insert('c', 1)
+    t3.insert('g', 3)
+    t3.insert('e', 5)
+    t3.insert('d', 7)
+    t3.insert('f', 8)
+    t3.insert('h', 6)
+    t3.insert('z', 6)
+    if t3.diam() != 5:
+        print("4a - error in diam")
+
+    empty_tree = Binary_search_tree()
+    if empty_tree.diam() != 0:
+        print("4a - error in diam")
+
+    uni_tree = Binary_search_tree()
+    uni_tree.insert('a', 10)
+    if uni_tree.diam() != 1:
+        print("4a - error in diam")
+
+    # 4b
+    t3.cumsum()
+    if str(t3.inorder()) != "[('c', 1), ('cd', 7), ('cde', 5), ('cdef', 8), ('cdefg', 3), ('cdefgh', 6), ('cdefghz', " \
+                            "6)]":
+        print("4b - error in cumsum")
+    t2.cumsum()
+    if str(t2.inorder()) != "[('a', 10), ('ab', 10), ('abc', 10), ('abcd', 10), ('abcde', 10), ('abcdef', 10), " \
+                            "('abcdefg', 10), ('abcdefgh', 10)]":
+        print("4b - error in cumsum")
+
+    t1.cumsum()
+    if str(t1.inorder()) != "[('c', 10), ('ce', 10), ('ceg', 10), ('cegz', 10)]":
+        print("4b - error in cumsum")
+
+    empty_tree.cumsum()
+    if str(empty_tree.inorder()) != "[]":
+        print("4b - error in cumsum")
+
+    uni_tree.cumsum()
+    if str(uni_tree.inorder()) != "[('a', 10)]":
+        print("4b - error in cumsum")
+
+    ##############
+    # QUESTION 5 #
+    #   TESTER   #
+    ##############
+    # 5a
+    lst = ["abcd", "cdab", "aaaa", "bbbb", "abff"]
+    k = 2
+    if sorted(prefix_suffix_overlap(lst, k)) != sorted([(0, 1), (1, 0), (4, 1)]):
+        print("error in prefix_suffix_overlap")
+
+    # 5c
+    d = Dict(3)
+    d.insert("a", 56)
+    d.insert("a", 34)
+
+    if sorted(d.find("a")) != sorted([56, 34]) or d.find("b") != []:
+        print("error in Dict.find")
+    # 5d
+    lst = ["abcd", "cdab", "aaaa", "bbbb", "abff"]
+    k = 2
+    if sorted(prefix_suffix_overlap_hash1(lst, k)) != sorted([(0, 1), (1, 0), (4, 1)]):
+        print("error in prefix_suffix_overlap_hash1")
