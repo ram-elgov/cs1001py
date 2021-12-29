@@ -819,3 +819,4 @@ def test():
     k = 2
     if sorted(prefix_suffix_overlap_hash1(lst, k)) != sorted([(0, 1), (1, 0), (4, 1)]):
         print("error in prefix_suffix_overlap_hash1")
+
