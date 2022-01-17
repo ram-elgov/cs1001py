@@ -6,11 +6,10 @@
 # but you may NOT change the signature of the existing ones.
 
 # Change the name of the file to include your ID number (hw6_ID.py).
-from PIL import Image  # need to install PIL/PILLOW
 
 
 # Q1b
-def sets_concat(s1, s2):
+def sets_concat(s1, s2):  # O(k*#s1#s2)
     s = set()
     for x in s1:
         for y in s2:
@@ -24,30 +23,30 @@ def generate_language(rule_dict, start_var, k):
 
 
 def generate_language_rec(rule_dict, var, k, mem):
-    if (var, k) in mem:
+    if (var, k) in mem:  # O(1)
         return mem[(var, k)]
 
     s = set()
-    if k == 0:
-        # if # replace this with your code #
-        #    s.add("")
+    if k == 0:  # O(1)
+        if "" in rule_dict[var]:
+            s.add("")
         mem[(var, k)] = s
         return s
 
-    if k == 1:
-        # for x in rule_dict[var]:
-        # if len(x) == 1:
-        # replace this with your code #
+    if k == 1:  # O(1)
+        for x in rule_dict[var]:
+            if len(x) == 1:
+                s.add(x)
         mem[(var, k)] = s
         return s
 
-    for var_rule in rule_dict[var]:
+    for var_rule in rule_dict[var]:  # O(r)
         if len(var_rule) == 2:
             X, Y = var_rule[0], var_rule[1]
-            # for j in range(1, k):
-            # s1 = # replace this with your code #
-            # s2 = # replace this with your code #
-            # s.update(# replace this with your code #) (hint: sets_concat)
+            for j in range(1, k):  # O(k)
+                s1 = generate_language_rec(rule_dict, X, j, mem)
+                s2 = generate_language_rec(rule_dict, Y, k - j, mem)
+                s.update(sets_concat(s1, s2))  # linear in k
     mem[(var, k)] = s
     return s
 
@@ -87,12 +86,21 @@ def what_rec(rule_dict, var, k, mem):
 
 # Q2a
 def get_next_sum(gen):
-    pass  # replace this with your code
+    last_sum = 0
+    last_fraction = 1
+    while True:
+        last_fraction *= 1 / next(gen)
+        last_sum = last_sum + last_fraction
+        yield last_sum
 
 
 # Q2b
-def gen_sequence():
-    pass  # replace this with your code
+def gen_sequence():  # 1 1 2 3 4 5 ...
+    n = 0
+    yield 1
+    while True:
+        n += 1
+        yield n
 
 
 # Q6a
@@ -101,9 +109,9 @@ def right_left(img):
     mat = img.load()
     new_img = img.copy()
     new_mat = new_img.load()
-    # replace this with your code #
-    # replace this with your code #
-    # replace this with your code #
+    for x in range(w):
+        for y in range(h):
+            new_mat[x, y] = mat[w - x - 1, y]
     return new_img
 
 
@@ -113,10 +121,10 @@ def what2(img):
     mat = img.load()
     new_img = img.copy()
     new_mat = new_img.load()
-    # for y in range(h):
-    # replace this with your code #
-    # for x in range(w):
-    # replace this with your code #
+    for y in range(h):
+        lst = sorted([mat[i, y] for i in range(w)])
+        for x in range(w):
+            new_mat[x, y] = lst[x]
     return new_img
 
 
